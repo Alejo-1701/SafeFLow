@@ -1,0 +1,31 @@
+<main class="home-shell">
+  <header class="app-header">
+    <div class="app-header__brand">
+      <span class="app-header__logo">SafeFlow</span>
+      <span class="app-header__sub">Sistema de Gestion Residencial</span>
+    </div>
+    <div class="app-header__meta">
+      <span class="app-header__dot" aria-hidden="true"></span>
+      <span>Conjunto Residencial</span>
+    </div>
+  </header>
+
+  <section class="portal-stage" aria-label="Modulos principales de SafeFlow">
+    <div class="building-photo">
+      <div class="building-photo__overlay">
+        <svg class="building-photo__icon" lucideCamera width="72" height="72" aria-hidden="true" />
+        <p>Foto del Conjunto Residencial</p>
+      </div>
+
+      <div class="portal-stage__inner">
+        <div class="portal-grid">
+          @for (portal of portals; track portal.title) {
+            <app-portal-card [portal]="portal" />
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <app-status-footer />
+</main>

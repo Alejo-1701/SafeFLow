@@ -1,0 +1,12 @@
+<article class="portal-card" [class.portal-card--active]="portal().isActive">
+  <span class="portal-card__icon" aria-hidden="true">
+    <svg [lucideIcon]="portal().icon" size="30" />
+  </span>
+
+  <h2>{{ portal().title }}</h2>
+  <p>{{ portal().description }}</p>
+
+  <button type="button" [attr.aria-label]="portal().actionLabel + ' a ' + portal().title">
+    {{ portal().actionLabel }}
+  </button>
+</article>
