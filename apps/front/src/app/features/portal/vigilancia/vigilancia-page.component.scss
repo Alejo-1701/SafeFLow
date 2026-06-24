@@ -1,7 +1,7 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: #0b132b;
+  background: #101a2a;
 }
 
 .vig-shell {
@@ -17,7 +17,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: #111827;
+  background: #111c2f;
   padding: 1.25rem 1rem;
   position: sticky;
   top: 0;
@@ -85,7 +85,6 @@
     line-height: 1;
   }
 
-  // Barrier buttons
   &__barrier-btn {
     display: flex;
     align-items: center;
@@ -111,7 +110,6 @@
     svg:last-child { margin-left: auto; color: currentColor; }
   }
 
-  // Alert cards
   &__history-btn {
     display: flex;
     align-items: center;
@@ -133,7 +131,13 @@
     }
   }
 
-  // Profile
+  &__empty {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.25);
+    padding: 0.5rem 0.25rem;
+    text-align: center;
+  }
+
   &__profile {
     display: flex;
     align-items: center;
@@ -365,7 +369,7 @@
   gap: 1rem;
   padding: 1.5rem 2rem;
   min-width: 0;
-  background: #0b132b;
+  background: #101a2a;
 }
 
 // ========================================
@@ -471,7 +475,6 @@
     }
   }
 
-  // Row card
   &__row-left {
     display: flex;
     flex-direction: column;
@@ -543,7 +546,7 @@
   &--primary {
     background: #38bdf8;
     border: none;
-    color: #0b132b;
+    color: #ffffff;
     box-shadow: 0 0 1.2rem rgba(56, 189, 248, 0.18);
 
     &:hover {
@@ -686,6 +689,16 @@
     background: rgba(255, 60, 60, 0.1);
     color: #ff5a5a;
   }
+}
+
+// ========================================
+// EMPTY STATE
+// ========================================
+.empty-table {
+  text-align: center;
+  padding: 2rem 1rem !important;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.82rem;
 }
 
 // ========================================
