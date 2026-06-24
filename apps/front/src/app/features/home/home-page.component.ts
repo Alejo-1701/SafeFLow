@@ -58,6 +58,7 @@ export class HomePageComponent {
       'Portal Administracion': '/portal/administracion',
       'Portal Propietario': '/portal/propietario',
     };
-    this.router.navigate([routes[portal.title] ?? '/']);
+    const dest = routes[portal.title] ?? '/';
+    this.router.navigate(['/login'], { queryParams: { redirect: dest } });
   }
 }

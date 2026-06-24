@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import {
   LucideArrowLeft,
   LucideArrowRight,
@@ -28,6 +28,7 @@ import {
 })
 export class LoginPageComponent {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected showPassword = false;
 
@@ -37,7 +38,7 @@ export class LoginPageComponent {
 
   protected onSubmit(event: Event): void {
     event.preventDefault();
-    // TODO: Integrate with backend authentication service
-    this.router.navigate(['/portal/residente']);
+    const redirect = this.route.snapshot.queryParamMap.get('redirect') || '/portal/residente';
+    this.router.navigate([redirect]);
   }
 }
