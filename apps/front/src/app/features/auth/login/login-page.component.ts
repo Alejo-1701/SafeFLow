@@ -38,6 +38,6 @@ export class LoginPageComponent {
   protected onSubmit(event: Event): void {
     event.preventDefault();
     // TODO: Integrate with backend authentication service
-    this.router.navigate(['/']);
+    this.router.navigate(['/portal/residente']);
   }
 }

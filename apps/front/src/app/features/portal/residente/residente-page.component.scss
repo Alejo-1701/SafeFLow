@@ -1,7 +1,7 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: #0d1520;
+  background: #101a2a;
 }
 
 .portal-shell {
@@ -19,7 +19,7 @@
   justify-content: space-between;
   padding: 0 1.75rem;
   height: 3.75rem;
-  background: #0b132b;
+  background: #111c2f;
   flex-shrink: 0;
 
   &__brand {
@@ -30,6 +30,12 @@
     font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: 0.01em;
+  }
+
+  &__logo {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: contain;
   }
 
   &__actions {
@@ -120,9 +126,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
 }
 
 // ========================================
@@ -135,7 +139,7 @@
   gap: 1rem;
   padding: 0.85rem 1.25rem;
   border-radius: 0.65rem;
-  background: rgba(15, 25, 50, 0.85);
+  background: #152238;
   border: 1px solid rgba(56, 189, 248, 0.2);
   box-shadow: 0 0 1.5rem rgba(56, 189, 248, 0.06), inset 0 0 1.5rem rgba(56, 189, 248, 0.03);
 
@@ -241,7 +245,7 @@
 // BASE CARD
 // ========================================
 .card {
-  background: rgba(13, 23, 42, 0.7);
+  background: #152238;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0.65rem;
   padding: 1.25rem;
@@ -264,7 +268,7 @@
   }
 
   &__body {
-    padding-top: 1rem;
+    padding: 1rem 1.25rem;
   }
 
   &__link {
@@ -296,8 +300,8 @@
     align-items: center;
     justify-content: center;
     height: 10rem;
-    background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.12) 0%, transparent 70%),
-                rgba(10, 18, 34, 0.6);
+    background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.08) 0%, transparent 70%),
+                rgba(17, 28, 47, 0.7);
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   }
 
@@ -312,6 +316,12 @@
     border-radius: 0.3rem;
     background: rgba(255, 60, 60, 0.12);
     border: 1px solid rgba(255, 60, 60, 0.2);
+  }
+
+  &__badge--available {
+    color: #00c853;
+    background: rgba(0, 200, 83, 0.1);
+    border-color: rgba(0, 200, 83, 0.2);
   }
 
   &__car {
@@ -346,6 +356,11 @@
 
     &--cyan {
       color: #38bdf8;
+    }
+
+    &--muted {
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 400;
     }
   }
 
@@ -650,7 +665,7 @@
   overflow-x: auto;
   border-radius: 0.65rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(13, 23, 42, 0.5);
+  background: #152238;
 }
 
 .history-table {
@@ -668,7 +683,7 @@
       color: rgba(255, 255, 255, 0.3);
       text-transform: uppercase;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.03);
     }
   }
 
@@ -713,6 +728,24 @@
     background: rgba(255, 60, 60, 0.1);
     color: #ff5a5a;
   }
+}
+
+// ========================================
+// EMPTY STATE
+// ========================================
+.empty-text {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  padding: 1rem 0;
+  margin: 0;
+}
+
+.empty-table {
+  text-align: center;
+  padding: 2rem 1rem !important;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.82rem;
 }
 
 .action-btn {

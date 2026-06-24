@@ -4,8 +4,8 @@
   <!-- ============================== -->
   <header class="navbar">
     <div class="navbar__brand">
-      <svg lucideCircleParking width="28" height="28" aria-hidden="true" />
-      <span>ParkResidencial</span>
+      <img src="logo-safeflow.png" alt="SafeFlow" class="navbar__logo" />
+      <span>SafeFlow</span>
     </div>
 
     <div class="navbar__actions">
@@ -14,7 +14,7 @@
         Actualizar Datos
       </button>
 
-      <button type="button" class="navbar__btn navbar__btn--outline-red">
+      <button type="button" class="navbar__btn navbar__btn--outline-red" (click)="onLogout()">
         <svg lucideLogOut width="16" height="16" aria-hidden="true" />
         Cerrar Sesión
       </button>
@@ -44,7 +44,7 @@
         </div>
         <div class="alert-banner__text">
           <strong>Visitante en Portería</strong>
-          <span>Vehículo: {{ currentVisitor.vehicle }} ({{ currentVisitor.plate }}) &bull; Conductor: {{ currentVisitor.driver }}</span>
+          <span>Vehículo: — &bull; Conductor: —</span>
         </div>
       </div>
       <div class="alert-banner__right">
@@ -68,7 +68,7 @@
         <!-- Parking Status Card -->
         <section class="card parking-card">
           <div class="parking-card__hero">
-            <span class="parking-card__badge">&bull; {{ parkingStatus.status }}</span>
+            <span class="parking-card__badge parking-card__badge--available">&bull; Disponible</span>
             <div class="parking-card__car">
               <svg lucideCar width="120" height="120" aria-hidden="true" />
             </div>
@@ -81,12 +81,11 @@
             <div class="parking-card__info-grid">
               <div class="parking-card__info-item">
                 <span class="parking-card__label">UBICACIÓN ACTUAL</span>
-                <span class="parking-card__value parking-card__value--cyan">{{ parkingStatus.spot }}</span>
+                <span class="parking-card__value parking-card__value--cyan">Puesto #104</span>
               </div>
               <div class="parking-card__info-item">
                 <span class="parking-card__label">VEHÍCULO</span>
-                <span class="parking-card__value">{{ parkingStatus.vehicle }}</span>
-                <span class="parking-card__sub">Placa: {{ parkingStatus.plate }}</span>
+                <span class="parking-card__value parking-card__value--muted">Sin vehículo</span>
               </div>
             </div>
           </div>
@@ -130,6 +129,9 @@
             </a>
           </div>
           <div class="vehicles-card__list">
+            @if (vehicles.length === 0) {
+              <p class="empty-text">Aún no tienes vehículos registrados.</p>
+            }
             @for (v of vehicles; track v.id) {
               <div class="vehicle-item">
                 <div class="vehicle-item__icon">
@@ -161,6 +163,9 @@
             </h3>
           </div>
           <div class="timeline">
+            @if (requests.length === 0) {
+              <p class="empty-text">No hay solicitudes registradas.</p>
+            }
             @for (r of requests; track r.id) {
               <div class="timeline__item">
                 <div class="timeline__dot" [class.timeline__dot--orange]="r.status === 'en_proceso'" [class.timeline__dot--green]="r.status === 'completado'"></div>
@@ -214,6 +219,11 @@
             </tr>
           </thead>
           <tbody>
+            @if (visitHistory.length === 0) {
+              <tr>
+                <td colspan="5" class="empty-table">No hay visitas recientes.</td>
+              </tr>
+            }
             @for (visit of visitHistory; track visit.id) {
               <tr>
                 <td>{{ visit.date }}</td>
