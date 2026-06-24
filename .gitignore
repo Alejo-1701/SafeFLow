@@ -9,6 +9,9 @@ tmp/
 .nx/cache/
 .nx/workspace-data/
 
+# Angular cache
+.angular/cache/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

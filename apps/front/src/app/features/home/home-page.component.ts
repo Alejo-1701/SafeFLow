@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   LucideUsers,
   LucideShieldCheck,
@@ -17,6 +18,8 @@ import { StatusFooterComponent } from '../../shared/ui/status-footer/status-foot
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
+  private readonly router = inject(Router);
+
   protected readonly portals: PortalCardItem[] = [
     {
       title: 'Portal Residentes',
@@ -47,4 +50,8 @@ export class HomePageComponent {
       icon: LucideBuilding2,
     },
   ];
+
+  protected onPortalClick(_portal: PortalCardItem): void {
+    this.router.navigate(['/login']);
+  }
 }

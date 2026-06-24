@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { LucideDynamicIcon, LucideIcon } from '@lucide/angular';
 
 export interface PortalCardItem {
@@ -18,4 +18,5 @@ export interface PortalCardItem {
 })
 export class PortalCardComponent {
   readonly portal = input.required<PortalCardItem>();
+  readonly cardClick = output<PortalCardItem>();
 }

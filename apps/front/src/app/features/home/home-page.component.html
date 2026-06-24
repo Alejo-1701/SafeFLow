@@ -20,7 +20,7 @@
       <div class="portal-stage__inner">
         <div class="portal-grid">
           @for (portal of portals; track portal.title) {
-            <app-portal-card [portal]="portal" />
+            <app-portal-card [portal]="portal" (cardClick)="onPortalClick($event)" />
           }
         </div>
       </div>

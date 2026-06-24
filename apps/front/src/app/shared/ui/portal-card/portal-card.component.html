@@ -1,4 +1,8 @@
-<article class="portal-card" [class.portal-card--active]="portal().isActive">
+<article
+  class="portal-card"
+  [class.portal-card--active]="portal().isActive"
+  (click)="cardClick.emit(portal())"
+>
   <span class="portal-card__icon" aria-hidden="true">
     <svg [lucideIcon]="portal().icon" size="30" />
   </span>
