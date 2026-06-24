@@ -1,0 +1,240 @@
+<div class="portal-shell">
+  <!-- ============================== -->
+  <!-- NAVBAR                          -->
+  <!-- ============================== -->
+  <header class="navbar">
+    <div class="navbar__brand">
+      <svg lucideCircleParking width="28" height="28" aria-hidden="true" />
+      <span>ParkResidencial</span>
+    </div>
+
+    <div class="navbar__actions">
+      <button type="button" class="navbar__btn navbar__btn--gray">
+        <svg lucidePen width="16" height="16" aria-hidden="true" />
+        Actualizar Datos
+      </button>
+
+      <button type="button" class="navbar__btn navbar__btn--outline-red">
+        <svg lucideLogOut width="16" height="16" aria-hidden="true" />
+        Cerrar Sesión
+      </button>
+
+      <div class="navbar__profile">
+        <div class="navbar__profile-info">
+          <span class="navbar__profile-name">{{ userName }}</span>
+          <span class="navbar__profile-location">{{ userLocation }}</span>
+        </div>
+        <div class="navbar__avatar">
+          <svg lucideUser width="20" height="20" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================== -->
+  <!-- MAIN CONTENT                   -->
+  <!-- ============================== -->
+  <main class="portal-main">
+
+    <!-- Alert Banner -->
+    <aside class="alert-banner">
+      <div class="alert-banner__left">
+        <div class="alert-banner__icon-circle">
+          <svg lucideBell width="20" height="20" aria-hidden="true" />
+        </div>
+        <div class="alert-banner__text">
+          <strong>Visitante en Portería</strong>
+          <span>Vehículo: {{ currentVisitor.vehicle }} ({{ currentVisitor.plate }}) &bull; Conductor: {{ currentVisitor.driver }}</span>
+        </div>
+      </div>
+      <div class="alert-banner__right">
+        <button type="button" class="alert-banner__btn alert-banner__btn--approve">
+          <svg lucideCheck width="16" height="16" aria-hidden="true" />
+          Aprobar Ingreso
+        </button>
+        <button type="button" class="alert-banner__btn alert-banner__btn--reject">
+          <svg lucideX width="16" height="16" aria-hidden="true" />
+          Rechazar
+        </button>
+      </div>
+    </aside>
+
+    <!-- Two-column grid -->
+    <div class="portal-grid">
+
+      <!-- ======== LEFT COLUMN ======== -->
+      <div class="portal-grid__left">
+
+        <!-- Parking Status Card -->
+        <section class="card parking-card">
+          <div class="parking-card__hero">
+            <span class="parking-card__badge">&bull; {{ parkingStatus.status }}</span>
+            <div class="parking-card__car">
+              <svg lucideCar width="120" height="120" aria-hidden="true" />
+            </div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">
+              <svg lucideCarFront width="18" height="18" aria-hidden="true" />
+              Estado de Parqueadero
+            </h3>
+            <div class="parking-card__info-grid">
+              <div class="parking-card__info-item">
+                <span class="parking-card__label">UBICACIÓN ACTUAL</span>
+                <span class="parking-card__value parking-card__value--cyan">{{ parkingStatus.spot }}</span>
+              </div>
+              <div class="parking-card__info-item">
+                <span class="parking-card__label">VEHÍCULO</span>
+                <span class="parking-card__value">{{ parkingStatus.vehicle }}</span>
+                <span class="parking-card__sub">Placa: {{ parkingStatus.plate }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pre-authorize Guest Form -->
+        <section class="card guest-card">
+          <h3 class="card__title">
+            <svg lucideUserPlus width="18" height="18" aria-hidden="true" />
+            Pre-autorizar Invitado
+          </h3>
+          <form class="guest-card__form">
+            <div class="guest-card__field">
+              <input type="text" placeholder="Nombre del Invitado" />
+            </div>
+            <div class="guest-card__field">
+              <input type="text" placeholder="Placa Vehículo (Opcional)" />
+            </div>
+            <div class="guest-card__field">
+              <input type="date" placeholder="Fecha de Ingreso" />
+            </div>
+            <button type="submit" class="guest-card__submit">Generar Autorización</button>
+          </form>
+        </section>
+
+      </div>
+
+      <!-- ======== RIGHT COLUMN ======== -->
+      <div class="portal-grid__right">
+
+        <!-- My Vehicles -->
+        <section class="card vehicles-card">
+          <div class="card__header">
+            <h3 class="card__title">
+              <svg lucideCarFront width="18" height="18" aria-hidden="true" />
+              Mis Vehículos
+            </h3>
+            <a class="card__link" tabindex="0">
+              <svg lucidePlus width="14" height="14" aria-hidden="true" />
+              Registrar
+            </a>
+          </div>
+          <div class="vehicles-card__list">
+            @for (v of vehicles; track v.id) {
+              <div class="vehicle-item">
+                <div class="vehicle-item__icon">
+                  @if (v.type === 'car') {
+                    <svg lucideCar width="18" height="18" aria-hidden="true" />
+                  } @else {
+                    <svg lucideBike width="18" height="18" aria-hidden="true" />
+                  }
+                </div>
+                <div class="vehicle-item__info">
+                  <span class="vehicle-item__name">{{ v.name }} / Placa: {{ v.plate }}</span>
+                </div>
+                @if (v.isPrimary) {
+                  <span class="badge badge--primary">PRINCIPAL</span>
+                } @else {
+                  <span class="badge badge--secondary">SECUNDARIO</span>
+                }
+              </div>
+            }
+          </div>
+        </section>
+
+        <!-- My Requests -->
+        <section class="card requests-card">
+          <div class="card__header">
+            <h3 class="card__title">
+              <svg lucideScrollText width="18" height="18" aria-hidden="true" />
+              Mis Solicitudes
+            </h3>
+          </div>
+          <div class="timeline">
+            @for (r of requests; track r.id) {
+              <div class="timeline__item">
+                <div class="timeline__dot" [class.timeline__dot--orange]="r.status === 'en_proceso'" [class.timeline__dot--green]="r.status === 'completado'"></div>
+                <div class="timeline__content">
+                  <span class="timeline__title">{{ r.title }}</span>
+                  <span class="timeline__sub">{{ r.subtitle }}</span>
+                </div>
+                @if (r.status === 'en_proceso') {
+                  <span class="badge badge--orange">EN PROCESO</span>
+                } @else {
+                  <span class="badge badge--green">COMPLETADO</span>
+                }
+              </div>
+            }
+          </div>
+          <button type="button" class="requests-card__btn">Nueva Solicitud</button>
+        </section>
+
+        <!-- Quick Action Buttons -->
+        <div class="quick-actions">
+          <button type="button" class="quick-btn">
+            <svg lucideFileText width="22" height="22" aria-hidden="true" />
+            <span>Documentos</span>
+          </button>
+          <button type="button" class="quick-btn">
+            <svg lucideScale width="22" height="22" aria-hidden="true" />
+            <span>Reglamento</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- HISTORY TABLE                  -->
+    <!-- ============================== -->
+    <section class="history-section">
+      <div class="history-section__header">
+        <h3 class="history-section__title">Historial de Visitas Recientes</h3>
+        <a class="history-section__link" tabindex="0">Ver Todo</a>
+      </div>
+      <div class="table-wrapper">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>FECHA</th>
+              <th>VISITANTE</th>
+              <th>VEHÍCULO</th>
+              <th>ESTADO</th>
+              <th>ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (visit of visitHistory; track visit.id) {
+              <tr>
+                <td>{{ visit.date }}</td>
+                <td>{{ visit.visitor }}</td>
+                <td>{{ visit.vehicle }} ({{ visit.plate }})</td>
+                <td>
+                  <span class="status-badge" [class.status-badge--ingreso]="visit.status === 'ingreso'" [class.status-badge--salio]="visit.status === 'salio'" [class.status-badge--rechazado]="visit.status === 'rechazado'">
+                    {{ visit.statusLabel }}
+                  </span>
+                </td>
+                <td>
+                  <button type="button" class="action-btn" aria-label="Más opciones">
+                    <svg lucideEllipsisVertical width="16" height="16" aria-hidden="true" />
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
