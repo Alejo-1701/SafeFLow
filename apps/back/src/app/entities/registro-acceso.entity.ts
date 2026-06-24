@@ -17,10 +17,10 @@ export class RegistroAcceso {
   @PrimaryGeneratedColumn()
   id_registro: number;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   fecha_hora_entrada?: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   fecha_hora_salida?: Date;
 
   @ManyToOne(() => Vehiculos, (v) => v.registros_acceso)
