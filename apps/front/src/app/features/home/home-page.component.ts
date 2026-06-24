@@ -51,7 +51,11 @@ export class HomePageComponent {
     },
   ];
 
-  protected onPortalClick(_portal: PortalCardItem): void {
-    this.router.navigate(['/login']);
+  protected onPortalClick(portal: PortalCardItem): void {
+    const routes: Record<string, string> = {
+      'Portal Residentes': '/portal/residente',
+      'Portal Administracion': '/portal/administracion',
+    };
+    this.router.navigate([routes[portal.title] ?? '/login']);
   }
 }

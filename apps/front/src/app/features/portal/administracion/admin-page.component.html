@@ -1,0 +1,189 @@
+<div class="admin-shell">
+  <!-- ============================== -->
+  <!-- SIDEBAR                        -->
+  <!-- ============================== -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      <img src="logo-safeflow.png" alt="SafeFlow" class="sidebar__logo-img" />
+      <span>SafeFlow</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      @for (item of menuItems; track item.label) {
+        <a class="sidebar__link" [class.sidebar__link--active]="item.active" tabindex="0">
+          <ng-container [ngComponentOutlet]="item.icon" />
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar__profile">
+      <div class="sidebar__profile-left">
+        <div class="sidebar__avatar">
+          <svg lucideUserRound width="18" height="18" aria-hidden="true" />
+        </div>
+        <div class="sidebar__profile-info">
+          <span class="sidebar__profile-name">Admin Juan</span>
+          <span class="sidebar__profile-role">Super Admin</span>
+        </div>
+      </div>
+      <button type="button" class="sidebar__logout" (click)="onLogout()" aria-label="Cerrar sesión">
+        <svg lucideLogOut width="16" height="16" aria-hidden="true" />
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================== -->
+  <!-- MAIN CONTENT                   -->
+  <!-- ============================== -->
+  <main class="admin-main">
+
+    <!-- HEADER -->
+    <header class="admin-header">
+      <div class="admin-header__left">
+        <h1 class="admin-header__title">Dashboard de Administración</h1>
+        <p class="admin-header__subtitle">Control de acceso y estado del parqueo en tiempo real.</p>
+      </div>
+      <div class="admin-header__right">
+        <button type="button" class="admin-btn admin-btn--outline">
+          <svg lucideArrowUpRight width="16" height="16" aria-hidden="true" />
+          Exportar
+        </button>
+        <button type="button" class="admin-btn admin-btn--primary">
+          + Registrar Residente
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI CARDS -->
+    <section class="kpi-grid">
+      <article class="kpi-card">
+        <div class="kpi-card__value">--</div>
+        <div class="kpi-card__label">% de ocupación</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-card__icon kpi-card__icon--green">
+          <svg lucideDollarSign width="18" height="18" aria-hidden="true" />
+        </div>
+        <div class="kpi-card__value">$ --</div>
+        <div class="kpi-card__label">Recaudo hoy</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-card__icon kpi-card__icon--red">
+          <svg lucideTriangleAlert width="18" height="18" aria-hidden="true" />
+        </div>
+        <div class="kpi-card__value">0</div>
+        <div class="kpi-card__label">Alertas de seguridad</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-card__icon kpi-card__icon--gold">
+          <svg lucideMapPinned width="18" height="18" aria-hidden="true" />
+        </div>
+        <div class="kpi-card__value">0</div>
+        <div class="kpi-card__label">Visitantes Hoy</div>
+      </article>
+    </section>
+
+    <!-- TWO-COLUMN LAYOUT -->
+    <div class="admin-grid">
+
+      <!-- LEFT: Recent Activity -->
+      <section class="admin-card activity-card">
+        <h2 class="admin-card__title">Última Actividad</h2>
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>PLACA</th>
+              <th>TIPO</th>
+              <th>HORA ENTRADA</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (recentActivity.length === 0) {
+              <tr>
+                <td colspan="3" class="empty-table">No hay actividad registrada.</td>
+              </tr>
+            }
+            @for (a of recentActivity; track $index) {
+              <tr>
+                <td class="activity-table__plate">{{ a.plate }}</td>
+                <td>
+                  <span class="badge" [class.badge--residente]="a.type === 'residente'" [class.badge--visitante]="a.type === 'visitante'">
+                    {{ a.type === 'residente' ? 'RESIDENTE' : 'VISITANTE' }}
+                  </span>
+                </td>
+                <td class="activity-table__time">{{ a.time }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <!-- RIGHT: User Management -->
+      <section class="admin-card users-card">
+        <div class="admin-card__header">
+          <h2 class="admin-card__title">Gestión de Usuarios y Accesos</h2>
+          <div class="search-field">
+            <svg lucideSearch width="16" height="16" class="search-field__icon" aria-hidden="true" />
+            <input type="search" placeholder="Buscar residente o unidad..." />
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>UNIDAD</th>
+                <th>ESTADO</th>
+                <th>ÚLTIMO ACCESO</th>
+                <th>RESIDENTE</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (users.length === 0) {
+                <tr>
+                  <td colspan="4" class="empty-table">No hay residentes registrados.</td>
+                </tr>
+              }
+              @for (u of users; track $index) {
+                <tr>
+                  <td>{{ u.unit }}</td>
+                  <td>
+                    <span class="status-dot" [class.status-dot--active]="u.isActive" [class.status-dot--inactive]="!u.isActive"></span>
+                    {{ u.isActive ? 'ACTIVO' : 'INACTIVO' }}
+                  </td>
+                  <td>{{ u.lastAccess }}</td>
+                  <td>
+                    <div class="user-cell">
+                      <div class="user-cell__avatar">{{ u.initials }}</div>
+                      <div class="user-cell__info">
+                        <span class="user-cell__name">{{ u.name }}</span>
+                        <span class="user-cell__email">{{ u.email }}</span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span class="table-footer__info">Mostrando {{ users.length }} de {{ totalResidents | number }} residentes</span>
+          <div class="table-footer__pagination">
+            <button type="button" class="pagination-btn" aria-label="Anterior">
+              <svg lucideChevronLeft width="16" height="16" aria-hidden="true" />
+            </button>
+            <button type="button" class="pagination-btn" aria-label="Siguiente">
+              <svg lucideChevronRight width="16" height="16" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
