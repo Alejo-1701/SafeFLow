@@ -4,6 +4,7 @@ import { LoginPageComponent } from './features/auth/login/login-page.component';
 import { ResidentePageComponent } from './features/portal/residente/residente-page.component';
 import { AdminPageComponent } from './features/portal/administracion/admin-page.component';
 import { VigilanciaPageComponent } from './features/portal/vigilancia/vigilancia-page.component';
+import { PropietarioPageComponent } from './features/portal/propietario/propietario-page.component';
 
 export const appRoutes: Route[] = [
   {
@@ -25,5 +26,9 @@ export const appRoutes: Route[] = [
   {
     path: 'portal/administracion',
     component: AdminPageComponent,
+  },
+  {
+    path: 'portal/propietario',
+    component: PropietarioPageComponent,
   },
 ];

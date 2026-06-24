@@ -56,7 +56,8 @@ export class HomePageComponent {
       'Portal Residentes': '/portal/residente',
       'Portal Vigilancia': '/portal/vigilancia',
       'Portal Administracion': '/portal/administracion',
+      'Portal Propietario': '/portal/propietario',
     };
-    this.router.navigate([routes[portal.title] ?? '/login']);
+    this.router.navigate([routes[portal.title] ?? '/']);
   }
 }
