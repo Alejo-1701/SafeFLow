@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import {
   LucideArrowRight,
   LucideBan,
@@ -21,6 +20,8 @@ import {
   LucideUserRound,
   LucideUsers,
 } from '@lucide/angular';
+import { AuthService } from '../../../core/auth/auth.service';
+import { PortalService, VisitorRequest, MonitorItem, HistoryItem } from '../../../core/services/portal.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,23 +50,29 @@ import {
   templateUrl: './vigilancia-page.component.html',
   styleUrl: './vigilancia-page.component.scss',
 })
-export class VigilanciaPageComponent {
-  private readonly router = inject(Router);
+export class VigilanciaPageComponent implements OnInit {
+  private readonly authService = inject(AuthService);
+  private readonly portalService = inject(PortalService);
 
-  protected readonly visitorRequests: {
-    name: string; status: 'autorizado' | 'pendiente'; location: string; time?: string;
-  }[] = [];
+  protected visitorRequests: VisitorRequest[] = [];
+  protected monitorData: MonitorItem[] = [];
+  protected historyData: HistoryItem[] = [];
 
-  protected readonly monitorData: {
-    plate: string; apartment: string; name: string; entry: string;
-    status: 'aprobado' | 'pendiente' | 'rechazado'; duration: string; value: string;
-  }[] = [];
+  ngOnInit(): void {
+    this.portalService.getAutorizaciones().subscribe((v) => {
+      this.visitorRequests = v;
+    });
 
-  protected readonly historyData: {
-    plate: string; duration: string; value: string; time: string;
-  }[] = [];
+    this.portalService.getMonitor().subscribe((m) => {
+      this.monitorData = m;
+    });
+
+    this.portalService.getHistorial().subscribe((h) => {
+      this.historyData = h;
+    });
+  }
 
   protected onLogout(): void {
-    this.router.navigate(['/']);
+    this.authService.logout();
   }
 }

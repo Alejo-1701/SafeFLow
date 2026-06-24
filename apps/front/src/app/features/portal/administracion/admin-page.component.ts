@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Type } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, Type, OnInit } from '@angular/core';
 import { DecimalPipe, NgComponentOutlet } from '@angular/common';
 import {
   LucideArrowUpRight,
@@ -17,21 +16,8 @@ import {
   LucideUserRound,
   LucideUsers,
 } from '@lucide/angular';
-
-interface RecentActivity {
-  plate: string;
-  type: 'residente' | 'visitante';
-  time: string;
-}
-
-interface UserRecord {
-  unit: string;
-  isActive: boolean;
-  lastAccess: string;
-  name: string;
-  email: string;
-  initials: string;
-}
+import { AuthService } from '../../../core/auth/auth.service';
+import { PortalService, AdminDashboard } from '../../../core/services/portal.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,8 +43,11 @@ interface UserRecord {
   templateUrl: './admin-page.component.html',
   styleUrl: './admin-page.component.scss',
 })
-export class AdminPageComponent {
-  private readonly router = inject(Router);
+export class AdminPageComponent implements OnInit {
+  private readonly authService = inject(AuthService);
+  private readonly portalService = inject(PortalService);
+
+  protected dashboard: AdminDashboard | null = null;
 
   protected readonly menuItems: { label: string; icon: Type<unknown>; active: boolean }[] = [
     { label: 'Dashboard', icon: LucideLayoutDashboard, active: true },
@@ -70,13 +59,29 @@ export class AdminPageComponent {
     { label: 'Configuración', icon: LucideSettings, active: false },
   ];
 
-  protected readonly recentActivity: RecentActivity[] = [];
+  ngOnInit(): void {
+    this.portalService.getDashboard().subscribe((data) => {
+      this.dashboard = data;
+    });
+  }
 
-  protected readonly users: UserRecord[] = [];
+  protected get recentActivity() {
+    return this.dashboard?.recentActivity ?? [];
+  }
 
-  protected readonly totalResidents = 0;
+  protected get users() {
+    return this.dashboard?.users ?? [];
+  }
+
+  protected get totalResidents() {
+    return this.dashboard?.totalResidents ?? 0;
+  }
+
+  protected get kpis() {
+    return this.dashboard?.kpis;
+  }
 
   protected onLogout(): void {
-    this.router.navigate(['/']);
+    this.authService.logout();
   }
 }

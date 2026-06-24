@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   LucideBell,
@@ -17,31 +17,8 @@ import {
   LucideUserPlus,
   LucideX,
 } from '@lucide/angular';
-
-interface Vehicle {
-  id: string;
-  name: string;
-  plate: string;
-  type: 'car' | 'motorcycle';
-  isPrimary: boolean;
-}
-
-interface RequestItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  status: 'en_proceso' | 'completado';
-}
-
-interface VisitRecord {
-  id: string;
-  date: string;
-  visitor: string;
-  vehicle: string;
-  plate: string;
-  status: 'ingreso' | 'salio' | 'rechazado';
-  statusLabel: string;
-}
+import { AuthService } from '../../../core/auth/auth.service';
+import { PortalService, ResidenteProfile, Vehicle, RequestItem, VisitRecord } from '../../../core/services/portal.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,19 +43,36 @@ interface VisitRecord {
   templateUrl: './residente-page.component.html',
   styleUrl: './residente-page.component.scss',
 })
-export class ResidentePageComponent {
-  private readonly router = inject(Router);
+export class ResidentePageComponent implements OnInit {
+  private readonly authService = inject(AuthService);
+  private readonly portalService = inject(PortalService);
 
-  protected readonly userName = 'Nombre de Usuario';
-  protected readonly userLocation = 'Torre A - Apt 402';
+  protected userName = 'Cargando...';
+  protected userLocation = 'Cargando...';
+  protected vehicles: Vehicle[] = [];
+  protected requests: RequestItem[] = [];
+  protected visitHistory: VisitRecord[] = [];
 
-  protected readonly vehicles: Vehicle[] = [];
+  ngOnInit(): void {
+    this.portalService.getResidenteProfile().subscribe((p) => {
+      this.userName = p.name;
+      this.userLocation = p.location;
+    });
 
-  protected readonly requests: RequestItem[] = [];
+    this.portalService.getVehiculos().subscribe((v) => {
+      this.vehicles = v;
+    });
 
-  protected readonly visitHistory: VisitRecord[] = [];
+    this.portalService.getSolicitudes().subscribe((s) => {
+      this.requests = s;
+    });
+
+    this.portalService.getVisitas().subscribe((v) => {
+      this.visitHistory = v;
+    });
+  }
 
   protected onLogout(): void {
-    this.router.navigate(['/']);
+    this.authService.logout();
   }
 }
